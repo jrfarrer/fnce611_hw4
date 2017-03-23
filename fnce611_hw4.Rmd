@@ -81,7 +81,7 @@ beta <-
   unname()
 ```
 
-We find that **$\beta = `r beta`$**.
+We find that **$\beta$ = `r beta`**.
 
 ## Part b
 
