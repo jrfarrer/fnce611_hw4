@@ -11,7 +11,7 @@ output:
     css: style.css
     number_sections: yes
     toc: yes
-    toc_depth: 2
+    toc_depth: 1
     toc_float: yes
 ---
 
@@ -45,7 +45,7 @@ panderOptions('keep.trailing.zeros', TRUE)
 dell_data <- read_csv("fnce611_hw4.csv")
 ```
 
-## a)
+## Part a
 
 ```{r}
 lm1 <- lm(dell_excess_return ~ sp_excess_return, data = dell_data)
@@ -83,7 +83,7 @@ beta <-
 
 We find that $\beta = `r beta`$.
 
-## b)
+## Part b
 
 ```{r}
 dell_expected_return <- mean(dell_data$risk_free_return) * 52 + 
@@ -92,7 +92,7 @@ dell_expected_return <- mean(dell_data$risk_free_return) * 52 +
 
 Dell's expected return is `r dell_expected_return`.
 
-## c)
+## Part c
 
 \begin{align}
 \ r_{dell} & = r_{f} + \beta_{dell}(r_{m} + r_{f}) \\
@@ -104,7 +104,7 @@ Dell's expected return is `r dell_expected_return`.
 + Pros:
 + Cons:
 
-## d)
+## Part d
 
 ```{r}
 variance <- 
@@ -121,11 +121,11 @@ variance %>%
   pander(caption = "Annualized Variance of Dell and the market return")
 ```
 
-## e)
+## Part e
 
 \begin{align}
-\ Var(r_{dell}) &= \beta_{dell}^2 Var(r_{m}) + [\textnormal{firm specific risk}] \\
-\ `r variance$dell_var` &= `r beta`^2 \cdot `r variance$sp_var` + [\textnormal{firm specific risk}]
+\ Var(r_{dell}) &= \beta_{dell}^2 Var(r_{m}) + [\text{firm specific risk}] \\
+\ `r variance$dell_var` &= `r beta`^2 \cdot `r variance$sp_var` + [\text{firm specific risk}]
 \end{align}
 
 Of Dell's sample variance, **`r variance$dell_var`**, we can say that **`r beta^2 * variance$sp_var`** is from market risk and **`r variance$dell_var - beta^2 * variance$sp_var`** is firm specific risk.

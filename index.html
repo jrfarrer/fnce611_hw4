@@ -125,7 +125,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2",
+      selectors: "h1",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
@@ -228,8 +228,8 @@ div.tocify {
 <p></p>
 <pre class="r"><code>dell_data &lt;- read_csv(&quot;fnce611_hw4.csv&quot;)</code></pre>
 <p></p>
-<div id="a" class="section level2">
-<h2><span class="header-section-number">1.1</span> a)</h2>
+<div id="part-a" class="section level2">
+<h2><span class="header-section-number">1.1</span> Part a</h2>
 <p></p>
 <pre class="r"><code>lm1 &lt;- lm(dell_excess_return ~ sp_excess_return, data = dell_data)
 
@@ -264,16 +264,16 @@ dell_data %&gt;%
 <p></p>
 <p>We find that <span class="math inline">\(\beta = 0.9803\)</span>.</p>
 </div>
-<div id="b" class="section level2">
-<h2><span class="header-section-number">1.2</span> b)</h2>
+<div id="part-b" class="section level2">
+<h2><span class="header-section-number">1.2</span> Part b</h2>
 <p></p>
 <pre class="r"><code>dell_expected_return &lt;- mean(dell_data$risk_free_return) * 52 + 
         beta * (mean(dell_data$sp_return) * 52 - mean(dell_data$risk_free_return) * 52)</code></pre>
 <p></p>
 <p>Dell’s expected return is 0.0726.</p>
 </div>
-<div id="c" class="section level2">
-<h2><span class="header-section-number">1.3</span> c)</h2>
+<div id="part-c" class="section level2">
+<h2><span class="header-section-number">1.3</span> Part c</h2>
 <span class="math display">\[\begin{align}
 \ r_{dell} &amp; = r_{f} + \beta_{dell}(r_{m} + r_{f}) \\
  &amp; = 0.0387 + 0.9803 (0.0845 - 0.0387) \\
@@ -284,8 +284,8 @@ dell_data %&gt;%
 <li>Cons:</li>
 </ul>
 </div>
-<div id="d" class="section level2">
-<h2><span class="header-section-number">1.4</span> d)</h2>
+<div id="part-d" class="section level2">
+<h2><span class="header-section-number">1.4</span> Part d</h2>
 <p></p>
 <pre class="r"><code>variance &lt;- 
   dell_data %&gt;%
@@ -316,11 +316,11 @@ dell_data %&gt;%
 </table>
 <p></p>
 </div>
-<div id="e" class="section level2">
-<h2><span class="header-section-number">1.5</span> e)</h2>
+<div id="part-e" class="section level2">
+<h2><span class="header-section-number">1.5</span> Part e</h2>
 <span class="math display">\[\begin{align}
-\ Var(r_{dell}) &amp;= \beta_{dell}^2 Var(r_{m}) + [\textnormal{firm specific risk}] \\
-\ 0.1342 &amp;= 0.9803^2 \cdot 0.0513 + [\textnormal{firm specific risk}]
+\ Var(r_{dell}) &amp;= \beta_{dell}^2 Var(r_{m}) + [\text{firm specific risk}] \\
+\ 0.1342 &amp;= 0.9803^2 \cdot 0.0513 + [\text{firm specific risk}]
 \end{align}\]</span>
 <p>Of Dell’s sample variance, <strong>0.1342</strong>, we can say that <strong>0.0493</strong> is from market risk and <strong>0.0849</strong> is firm specific risk.</p>
 </div>
