@@ -81,7 +81,7 @@ beta <-
   unname()
 ```
 
-We find that $\beta = `r beta`$.
+We find that **$\beta = `r beta`$**.
 
 ## Part b
 
@@ -90,7 +90,7 @@ dell_expected_return <- mean(dell_data$risk_free_return) * 52 +
         beta * (mean(dell_data$sp_return) * 52 - mean(dell_data$risk_free_return) * 52)
 ```
 
-Dell's expected return is `r dell_expected_return`.
+Dell's expected return is **`r dell_expected_return`**.
 
 ## Part c
 
