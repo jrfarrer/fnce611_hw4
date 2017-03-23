@@ -1,0 +1,139 @@
+---
+title: "FNCE611 Problem Set 4"
+author: "Jessica Blum, Jordan Farrer, Marc Lanthemann"
+date: '2017-03-24'
+output:
+  bookdown::pdf_document2:
+    fig_caption: yes
+    number_sections: yes
+    toc: false
+  bookdown::html_document2:
+    css: style.css
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, fig.align = 'center', size = 'small', fig.pos = 'H',
+                      fig.width = 6, fig.height = 3.5)
+
+knitr::knit_hooks$set(
+          size = function(before, options, envir) {
+                  if (before) return(paste0("\n \\", options$size, "\n\n"))
+                  else return("\n\n \\normalsize \n")
+                  }
+          , inline = function(x) {if(!is.numeric(x)){ x }else{ prettyNum(round(x,4), big.mark=",") } }
+          )
+```
+
+```{r report-load-packages, results = 'hide', include = FALSE}
+pacman::p_load(tidyverse, forcats, pander, stringr, lubridate, ggrepel, extrafont, jrfTools, broom)
+```
+
+```{r report-additional-setup, include = FALSE}
+options(scipen = 999)
+panderOptions('digits', 8)
+panderOptions('round', 4)
+panderOptions('keep.trailing.zeros', TRUE)
+```
+
+# Question 1
+
+```{r}
+dell_data <- read_csv("fnce611_hw4.csv")
+```
+
+## a)
+
+```{r}
+lm1 <- lm(dell_excess_return ~ sp_excess_return, data = dell_data)
+
+equation = function(x) {
+  lm_coef <- list(a = formatC(coef(x)[1], digits = 4, format = 'f'),
+                  b = formatC(coef(x)[2], digits = 4, format = 'f'),
+                  r2 = formatC(summary(x)$r.squared, digits = 2, format = 'f'));
+  lm_eq <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(R)^2~"="~r2,lm_coef)
+  as.character(as.expression(lm_eq));                 
+}
+
+dell_data %>%
+  ggplot(aes(x = sp_excess_return, y = dell_excess_return)) +
+  geom_point() + 
+  geom_smooth(method = 'lm', se = FALSE) +
+  annotate("rect", xmin = -.17, xmax = -.028, ymin = .08, ymax = 0.12, fill="white", colour = pal538[['red']]) +
+  annotate("text", x = -0.1, y = 0.1, label = equation(lm1), parse = TRUE, 
+           family = "DecimaMonoPro", size = 3) +
+  theme_jrf(users_v = 'rstudio') +
+  labs(title = "Linear Regression of 5-year History", x = "S&P Excess Return", 
+       y = "Dell Excess Return")
+```
+
+
+```{r}
+beta <- 
+  lm1 %>% 
+  tidy() %>%
+  filter(term == "sp_excess_return") %>%
+  select(estimate) %>%
+  unlist() %>%
+  unname()
+```
+
+We find that $\beta = `r beta`$.
+
+## b)
+
+```{r}
+dell_expected_return <- mean(dell_data$risk_free_return) * 52 + 
+        beta * (mean(dell_data$sp_return) * 52 - mean(dell_data$risk_free_return) * 52)
+```
+
+Dell's expected return is `r dell_expected_return`.
+
+## c)
+
+\begin{align}
+\ r_{dell} & = r_{f} + \beta_{dell}(r_{m} + r_{f}) \\
+ & = 0.0387 + `r beta` (0.0845 - 0.0387) \\
+ & = `r 0.0387 + beta * (0.0845 - 0.0387)`
+\end{align}
+
+
++ Pros:
++ Cons:
+
+## d)
+
+```{r}
+variance <- 
+  dell_data %>%
+  summarise(
+    dell_var = sd(dell_return)^2 * 52
+    , sp_var = sd(sp_return)^2 * 52
+    )
+```
+
+
+```{r echo = FALSE}
+variance %>%
+  pander(caption = "Annualized Variance of Dell and the market return")
+```
+
+## e)
+
+\begin{align}
+\ Var(r_{dell}) &= \beta_{dell}^2 Var(r_{m}) + [\textnormal{firm specific risk}] \\
+\ `r variance$dell_var` &= `r beta`^2 \cdot `r variance$sp_var` + [\textnormal{firm specific risk}]
+\end{align}
+
+Of Dell's sample variance, **`r variance$dell_var`**, we can say that **`r beta^2 * variance$sp_var`** is from market risk and **`r variance$dell_var - beta^2 * variance$sp_var`** is firm specific risk.
+
+# Question 2
+
+
+# Question 3
+
+
+# Question 4
